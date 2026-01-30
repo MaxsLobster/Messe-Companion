@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Icon Generator</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+            padding: 40px;
+            background: #333;
+            font-family: -apple-system, sans-serif;
+            color: white;
+        }
+        .icon-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+        canvas {
+            border-radius: 20%;
+        }
+        button {
+            padding: 12px 24px;
+            font-size: 16px;
+            background: #4a9eff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #3a8eef;
+        }
+        h2 { margin: 0; }
+    </style>
+</head>
+<body>
+    <h1>🎪 Messe Companion Icons</h1>
+    
+    <div class="icon-container">
+        <h2>192x192</h2>
+        <canvas id="icon192" width="192" height="192"></canvas>
+        <button onclick="download('icon192', 'icon-192.png')">Download icon-192.png</button>
+    </div>
+    
+    <div class="icon-container">
+        <h2>512x512</h2>
+        <canvas id="icon512" width="512" height="512"></canvas>
+        <button onclick="download('icon512', 'icon-512.png')">Download icon-512.png</button>
+    </div>
+
+    <script>
+        function drawIcon(canvasId, size) {
+            const canvas = document.getElementById(canvasId);
+            const ctx = canvas.getContext('2d');
+            const s = size / 512; // scale factor
+            
+            // Background gradient (dark theme)
+            const bgGrad = ctx.createLinearGradient(0, 0, size, size);
+            bgGrad.addColorStop(0, '#1a1a2e');
+            bgGrad.addColorStop(1, '#16213e');
+            
+            // Rounded rect background
+            const radius = 100 * s;
+            ctx.beginPath();
+            ctx.moveTo(radius, 0);
+            ctx.lineTo(size - radius, 0);
+            ctx.quadraticCurveTo(size, 0, size, radius);
+            ctx.lineTo(size, size - radius);
+            ctx.quadraticCurveTo(size, size, size - radius, size);
+            ctx.lineTo(radius, size);
+            ctx.quadraticCurveTo(0, size, 0, size - radius);
+            ctx.lineTo(0, radius);
+            ctx.quadraticCurveTo(0, 0, radius, 0);
+            ctx.closePath();
+            ctx.fillStyle = bgGrad;
+            ctx.fill();
+            
+            const red = '#ff4757';
+            const white = '#ffffff';
+            const darkBlue = '#1a1a2e';
+            
+            // === FLAG POLE ===
+            ctx.beginPath();
+            ctx.moveTo(256 * s, 70 * s);
+            ctx.lineTo(256 * s, 45 * s);
+            ctx.strokeStyle = darkBlue;
+            ctx.lineWidth = 4 * s;
+            ctx.lineCap = 'round';
+            ctx.stroke();
+            
+            // === FLAG ===
+            ctx.beginPath();
+            ctx.moveTo(256 * s, 45 * s);
+            ctx.lineTo(295 * s, 58 * s);
+            ctx.lineTo(256 * s, 72 * s);
+            ctx.closePath();
+            ctx.fillStyle = red;
+            ctx.fill();
+            
+            // === TENT ROOF (red top piece) ===
+            ctx.beginPath();
+            ctx.moveTo(256 * s, 70 * s);
+            ctx.lineTo(340 * s, 130 * s);
+            ctx.lineTo(172 * s, 130 * s);
+            ctx.closePath();
+            ctx.fillStyle = red;
+            ctx.fill();
+            
+            // === MAIN TENT BODY ===
+            // Draw alternating stripes radiating from center
+            const roofBottom = 130 * s;
+            const tentBottom = 340 * s;
+            const centerX = 256 * s;
+            const tentLeft = 115 * s;
+            const tentRight = 397 * s;
+            
+            // White background first
+            ctx.beginPath();
+            ctx.moveTo(tentLeft, roofBottom);
+            ctx.lineTo(centerX, roofBottom);
+            ctx.lineTo(tentLeft + 30 * s, tentBottom);
+            ctx.lineTo(tentLeft, tentBottom);
+            ctx.closePath();
+            ctx.fillStyle = white;
+            ctx.fill();
+            
+            ctx.beginPath();
+            ctx.moveTo(centerX, roofBottom);
+            ctx.lineTo(tentRight, roofBottom);
+            ctx.lineTo(tentRight, tentBottom);
+            ctx.lineTo(tentRight - 30 * s, tentBottom);
+            ctx.closePath();
+            ctx.fillStyle = white;
+            ctx.fill();
+            
+            // Red stripes (radiating from top center)
+            // Stripe 1 - far left
+            ctx.beginPath();
+            ctx.moveTo(172 * s, roofBottom);
+            ctx.lineTo(200 * s, roofBottom);
+            ctx.lineTo(135 * s, tentBottom);
+            ctx.lineTo(115 * s, tentBottom);
+            ctx.closePath();
+            ctx.fillStyle = red;
+            ctx.fill();
+            
+            // Stripe 2 - left-center
+            ctx.beginPath();
+            ctx.moveTo(228 * s, roofBottom);
+            ctx.lineTo(256 * s, roofBottom);
+            ctx.lineTo(210 * s, tentBottom);
+            ctx.lineTo(175 * s, tentBottom);
+            ctx.closePath();
+            ctx.fillStyle = red;
+            ctx.fill();
+            
+            // Stripe 3 - right-center
+            ctx.beginPath();
+            ctx.moveTo(256 * s, roofBottom);
+            ctx.lineTo(284 * s, roofBottom);
+            ctx.lineTo(337 * s, tentBottom);
+            ctx.lineTo(302 * s, tentBottom);
+            ctx.closePath();
+            ctx.fillStyle = red;
+            ctx.fill();
+            
+            // Stripe 4 - far right
+            ctx.beginPath();
+            ctx.moveTo(312 * s, roofBottom);
+            ctx.lineTo(340 * s, roofBottom);
+            ctx.lineTo(397 * s, tentBottom);
+            ctx.lineTo(377 * s, tentBottom);
+            ctx.closePath();
+            ctx.fillStyle = red;
+            ctx.fill();
+            
+            // === LEFT TOWER ===
+            ctx.beginPath();
+            ctx.moveTo(100 * s, 180 * s);
+            ctx.lineTo(150 * s, 180 * s);
+            ctx.lineTo(150 * s, 340 * s);
+            ctx.lineTo(100 * s, 340 * s);
+            ctx.closePath();
+            ctx.fillStyle = red;
+            ctx.fill();
+            
+            // Left tower roof
+            ctx.beginPath();
+            ctx.moveTo(125 * s, 145 * s);
+            ctx.lineTo(160 * s, 180 * s);
+            ctx.lineTo(90 * s, 180 * s);
+            ctx.closePath();
+            ctx.fillStyle = red;
+            ctx.fill();
+            
+            // === RIGHT TOWER ===
+            ctx.beginPath();
+            ctx.moveTo(362 * s, 180 * s);
+            ctx.lineTo(412 * s, 180 * s);
+            ctx.lineTo(412 * s, 340 * s);
+            ctx.lineTo(362 * s, 340 * s);
+            ctx.closePath();
+            ctx.fillStyle = red;
+            ctx.fill();
+            
+            // Right tower roof
+            ctx.beginPath();
+            ctx.moveTo(387 * s, 145 * s);
+            ctx.lineTo(422 * s, 180 * s);
+            ctx.lineTo(352 * s, 180 * s);
+            ctx.closePath();
+            ctx.fillStyle = red;
+            ctx.fill();
+            
+            // === ENTRANCE (dark opening) ===
+            ctx.beginPath();
+            ctx.moveTo(210 * s, 340 * s);
+            ctx.lineTo(256 * s, 220 * s);
+            ctx.lineTo(302 * s, 340 * s);
+            ctx.closePath();
+            ctx.fillStyle = darkBlue;
+            ctx.fill();
+            
+            // === STATUS DOTS (small) ===
+            const dotRadius = 10 * s;
+            const dotY = 400 * s;
+            
+            ctx.beginPath();
+            ctx.arc(180 * s, dotY, dotRadius, 0, Math.PI * 2);
+            ctx.fillStyle = '#00d26a';
+            ctx.fill();
+            
+            ctx.beginPath();
+            ctx.arc(256 * s, dotY, dotRadius, 0, Math.PI * 2);
+            ctx.fillStyle = red;
+            ctx.fill();
+            
+            ctx.beginPath();
+            ctx.arc(332 * s, dotY, dotRadius, 0, Math.PI * 2);
+            ctx.fillStyle = '#ffa502';
+            ctx.fill();
+        }
+        
+        function download(canvasId, filename) {
+            const canvas = document.getElementById(canvasId);
+            const link = document.createElement('a');
+            link.download = filename;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+        
+        // Draw both icons on load
+        drawIcon('icon192', 192);
+        drawIcon('icon512', 512);
+    </script>
+</body>
+</html>
